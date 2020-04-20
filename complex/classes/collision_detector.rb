@@ -33,6 +33,4 @@ class CollisionDetector
       end
     end
   end
-
-  def
 end

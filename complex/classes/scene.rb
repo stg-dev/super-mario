@@ -1,24 +1,26 @@
 require './complex/classes/collision_detector'
+require './complex/classes/block'
 
 class Scene
   attr_reader :elements
 
   def initialize(player)
-    @background = Image.new(
-      'assets/background.bmp',
-      x: 0, y: 0,
-      width: 8960,
-      height: 600,
-      z: 1
-    )
-
     @elements = [player]
 
     @collision_detector = CollisionDetector.new
   end
 
+  def add_to_scene(element)
+    if element.kind_of?(Array)
+      @elements.concat element
+      @elements + element
+    else
+      @elements.append(element)
+    end
+  end
+
   def simulate_physics
-    @collision_detector.detect_collisions(@elements)
+    @collision_detector.detect_collisions([@elements[0]])
 
     @elements.each do |element|
       next unless element.simulate_physics
@@ -28,6 +30,9 @@ class Scene
   end
 
   def animate
-    @elements.each(&:animate)
+    @elements.each do |element|
+      next unless element.is_animated
+      element.animate
+    end
   end
 end
