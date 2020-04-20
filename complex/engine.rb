@@ -18,26 +18,21 @@ player = Player.new(200, 200)
 scene = Scene.new(player)
 scene.add_to_scene(Block.new(0, 500).append_blocks(30))
 scene.add_to_scene(Block.new(0, 550).append_blocks(30))
+
+scene.add_to_scene(Block.new(400, 450).append_blocks(20))
+
 scene.add_to_scene(Cloud.new(1200))
 
 on :key_down do |event|
-  if event.key == 'w' || event.key == 'space'
-    player.jump(7)
-  end
+  player.jump(7) if event.key == 'w' || event.key == 'space'
 
-  if event.key == 'd'
-    player.move('right')
-  end
+  player.move('right') if event.key == 'd'
 
-  if event.key == 'a'
-    player.move('left')
-  end
+  player.move('left') if event.key == 'a'
 end
 
 on :key_up do |event|
-  unless event.key == 'w' || event.key == 'space'
-    player.move(nil)
-  end
+  player.move(nil) unless event.key == 'w' || event.key == 'space'
 end
 
 update do

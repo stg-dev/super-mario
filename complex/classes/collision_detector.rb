@@ -1,3 +1,4 @@
+# DEPRECATED: only implements window collisions
 class CollisionDetector
   def detect_collisions(elements)
     elements.each do |element|
@@ -30,6 +31,7 @@ class CollisionDetector
   end
 end
 
+# Working! Includes improved Math and Logic
 class BenniCollisionDetector
   def detect_collisions(entity, elements)
     entity.collisions.each do |key, _|
@@ -39,10 +41,13 @@ class BenniCollisionDetector
     overlay(entity.collisions, check_window(entity, 1066, 600))
 
     elements.each do |element|
-      overlay(entity.collisions, check_collision(entity, element))
+      if element.is_a? CollisionObject
+        overlay(entity.collisions, check_collision(entity, element))
+        # overlay(entity.collisions, {test_collision(entity, element) => true})
+      end
     end
 
-    # puts("all: " + entity.collisions.to_s)
+    puts(entity.collisions)
   end
 
   def check_collision(element1, element2)
@@ -55,12 +60,35 @@ class BenniCollisionDetector
 
     # puts({"dtop"=> dtop, "dbottom" => dbottom, "dleft" => dleft, "dright" => dright})
 
-    collisions["top"] = dtop <= 0 && dtop > -element2.height
-    collisions["bottom"] = dbottom <= 0 && dbottom > -element2.height
-    collisions["right"] = dright <= 0 && dright > element2.width
-    collisions["left"] =dleft <= 0 && dleft > element2.width
-    # puts("e2e: " + collisions.to_s)
+    y_in_range = element1.y_pos <= element2.y_pos + element2.height && element1.y_pos + element1.height >= element2.y_pos
+    x_in_range = element1.x_pos <= element2.x_pos + element2.width && element1.x_pos + element1.width >= element2.x_pos
+
+    collisions["top"] = dtop <= 0 && dtop > -element2.height if y_in_range
+    collisions["bottom"] = dbottom <= 0 && dtop > -element2.height if y_in_range
+    collisions["right"] = dright <= 0 && dright > -element2.width if x_in_range
+    collisions["left"] = dleft <= 0 && dleft > -element2.width if x_in_range
+
     collisions
+  end
+
+  def test_collision(e1, e2)
+    y_not_range = e1.y_pos > e2.y_pos + e2.height || e1.y_pos + e1.height < e2.y_pos
+    x_not_range = e1.x_pos > e2.x_pos + e2.width || e1.x_pos + e1.width < e2.x_pos
+
+    dx = e2.x_pos - e1.x_pos
+    dy = e2.y_pos - e1.y_pos
+
+    unless y_not_range
+      return "right" if dx >= 0
+      return "left" if dx <= e1.width
+    end
+
+    unless x_not_range
+      return "bottom" if dy >= 0
+      return "top" if dy <= e1.height
+    end
+
+    ""
   end
 
   def check_window(entity, width, height)
@@ -70,7 +98,6 @@ class BenniCollisionDetector
     collisions["bottom"] = entity.y_pos + entity.height >= height
     collisions["left"] = entity.x_pos <= 0
     collisions["right"] = entity.x_pos + entity.width >= width
-    # puts("w2e: " + collisions.to_s)
     collisions
   end
 

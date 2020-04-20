@@ -34,15 +34,11 @@ class Player < LivingEntity
   end
 
   def jump(speed)
-    if @collisions["bottom"]
-      @y_speed = -speed
-    end
+    @y_speed = -speed if @collisions["bottom"]
   end
 
   def animate
-    unless @movement == nil
-      move_entity
-    end
+    move_entity unless @movement == nil
 
     if @x_speed < 0 && !@collisions["left"]
       @x_pos += @x_speed
@@ -54,13 +50,9 @@ class Player < LivingEntity
       @x_speed -= 0.25
     end
 
-    if @y_speed < 0 && !@collisions["top"]
-      @y_pos += @y_speed
-    end
+    @y_pos += @y_speed if @y_speed < 0 && !@collisions["top"]
 
-    if @y_speed > 0 && !@collisions["bottom"]
-      @y_pos += @y_speed
-    end
+    @y_pos += @y_speed if @y_speed > 0 && !@collisions["bottom"]
 
     update_square
   end

@@ -25,9 +25,9 @@ class Scene
     @collision_detector.detect_collisions(@elements[0], copy)
 
     @elements.each do |element|
-      next unless element.simulate_physics
-
-      element.y_speed += 0.2
+      if element.simulate_physics && !(element.collisions["bottom"])
+        element.y_speed += 0.2
+      end
     end
   end
 
@@ -40,6 +40,7 @@ class Scene
 
     @elements.each do |element|
       next unless element.is_animated
+
       element.animate
     end
   end
