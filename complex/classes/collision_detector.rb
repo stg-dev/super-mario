@@ -26,13 +26,10 @@ class CollisionDetector
         element.collisions["bottom"] = false
       end
 
-      elements.each do |other_element|
-        next if element == other_element
-
-
-      end
     end
   end
 
-  def
+  def compare()
+
+  end
 end
