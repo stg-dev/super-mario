@@ -1,6 +1,7 @@
 require 'ruby2d'
 require './complex/classes/scene'
 require './complex/classes/player'
+require './complex/classes/block'
 # require './code.rb'
 
 # Variables
@@ -14,6 +15,7 @@ set resizable: false
 
 player = Player.new(200, 200)
 scene = Scene.new(player)
+scene.add_to_scene(Block.new(0, 500).append_blocks(40))
 
 on :key_down do |event|
   if event.key == 'w' || event.key == 'space'

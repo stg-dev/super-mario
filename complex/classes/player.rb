@@ -1,16 +1,11 @@
 require './complex/classes/parents/collison_object'
 
 class Player < CollisionObject
-  attr_reader :simulate_physics, :x_speed, :x_pos, :y_pos, :width, :height
+  attr_reader :x_speed
   attr_accessor :y_speed
 
   def initialize(x_pos, y_pos)
-    super()
-
-    @x_pos = x_pos
-    @y_pos = y_pos
-    @height = 20
-    @width = 20
+    super(x_pos, y_pos, 20, 20, true, true)
 
     @x_speed = 0
     @y_speed = 0
@@ -23,8 +18,6 @@ class Player < CollisionObject
       color: 'green',
       z: 2
     )
-
-    @simulate_physics = true
   end
 
   def move(direction)
