@@ -7,7 +7,7 @@ class Scene
   def initialize(player)
     @elements = [player]
 
-    @collision_detector = CollisionDetector.new
+    @collision_detector = BenniCollisionDetector.new
   end
 
   def add_to_scene(element)
@@ -20,7 +20,9 @@ class Scene
   end
 
   def simulate_physics
-    @collision_detector.detect_collisions([@elements[0]])
+    copy = @elements
+    copy.pop(0)
+    @collision_detector.detect_collisions(@elements[0], copy)
 
     @elements.each do |element|
       next unless element.simulate_physics

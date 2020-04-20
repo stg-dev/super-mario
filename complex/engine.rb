@@ -16,6 +16,7 @@ set resizable: false
 player = Player.new(200, 200)
 scene = Scene.new(player)
 scene.add_to_scene(Block.new(0, 500).append_blocks(40))
+# scene.add_to_scene(Block.new(50, 600).append_blocks(20))
 
 on :key_down do |event|
   if event.key == 'w' || event.key == 'space'

@@ -33,7 +33,9 @@ class Player < CollisionObject
   end
 
   def jump(speed)
-    @y_speed = -speed
+    if @collisions["bottom"]
+      @y_speed = -speed
+    end
   end
 
   def animate
