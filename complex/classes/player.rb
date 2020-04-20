@@ -1,22 +1,23 @@
-require './complex/classes/parents/collison_object'
+require './complex/classes/parents/living_entity'
 
-class Player < CollisionObject
+class Player < LivingEntity
   attr_reader :x_speed
   attr_accessor :y_speed
 
   def initialize(x_pos, y_pos)
-    super(x_pos, y_pos, 20, 20, true, true)
+    super(x_pos, y_pos, 40, 80, true, true)
 
     @x_speed = 0
     @y_speed = 0
 
     @movement = nil
 
-    @square = Square.new(
-      x: @x_pos, y: @y_pos,
-      size: @width,
-      color: 'green',
-      z: 2
+    @image = Image.new(
+        'assets/mario_standing.bmp',
+        x: @x_pos, y: @y_pos,
+        width: @width,
+        height: @height,
+        z: 3
     )
   end
 
@@ -26,9 +27,9 @@ class Player < CollisionObject
 
   def move_entity
     if @movement == "right"
-      @x_speed = @x_speed < 7 ? @x_speed + 1 : @x_speed
+      @x_speed = @x_speed < 5 ? @x_speed + 0.5 : @x_speed
     elsif @movement == "left"
-      @x_speed = @x_speed > -7 ? @x_speed - 1 : @x_speed
+      @x_speed = @x_speed > -5 ? @x_speed - 0.5 : @x_speed
     end
   end
 
@@ -45,12 +46,12 @@ class Player < CollisionObject
 
     if @x_speed < 0 && !@collisions["left"]
       @x_pos += @x_speed
-      @x_speed += 0.5
+      @x_speed += 0.25
     end
 
     if @x_speed > 0 && !@collisions["right"]
       @x_pos += @x_speed
-      @x_speed -= 0.5
+      @x_speed -= 0.25
     end
 
     if @y_speed < 0 && !@collisions["top"]
@@ -65,9 +66,9 @@ class Player < CollisionObject
   end
 
   def update_square
-    if @square.x != @x_pos || @square.y != @y_pos
-      @square.x = @x_pos
-      @square.y = @y_pos
+    if @image.x != @x_pos || @image.y != @y_pos
+      @image.x = @x_pos
+      @image.y = @y_pos
     end
   end
 end

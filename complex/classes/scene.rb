@@ -32,6 +32,12 @@ class Scene
   end
 
   def animate
+    if @elements[0].x_pos > 800
+      @elements.each do |element|
+        element.x_pos -= 5
+      end
+    end
+
     @elements.each do |element|
       next unless element.is_animated
       element.animate
