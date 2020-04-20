@@ -2,6 +2,7 @@ require 'ruby2d'
 require './complex/classes/scene'
 require './complex/classes/player'
 require './complex/classes/block'
+require './complex/classes/cloud'
 # require './code.rb'
 
 # Variables
@@ -15,11 +16,13 @@ set resizable: false
 
 player = Player.new(200, 200)
 scene = Scene.new(player)
-scene.add_to_scene(Block.new(0, 500).append_blocks(40))
+scene.add_to_scene(Block.new(0, 500).append_blocks(30))
+scene.add_to_scene(Block.new(0, 550).append_blocks(30))
+scene.add_to_scene(Cloud.new(1200))
 
 on :key_down do |event|
   if event.key == 'w' || event.key == 'space'
-    player.jump(5)
+    player.jump(7)
   end
 
   if event.key == 'd'

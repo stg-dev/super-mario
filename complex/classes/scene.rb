@@ -20,7 +20,7 @@ class Scene
   end
 
   def simulate_physics
-    @collision_detector.detect_collisions([@elements[0]])
+    @collision_detector.detect_collisions(@elements)
 
     @elements.each do |element|
       next unless element.simulate_physics
@@ -30,6 +30,12 @@ class Scene
   end
 
   def animate
+    if @elements[0].x_pos > 800
+      @elements.each do |element|
+        element.x_pos -= 5
+      end
+    end
+
     @elements.each do |element|
       next unless element.is_animated
       element.animate
