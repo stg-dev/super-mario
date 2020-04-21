@@ -40,6 +40,11 @@ class Player < LivingEntity
   def animate
     move_entity unless @movement == nil
 
+    @x_speed = 0 if @collisions["left"] && @x_speed < 0
+    @x_speed = 0 if @collisions["right"] && @x_speed > 0
+    @y_speed = 0 if @collisions["top"] && @y_speed < 0
+    @y_speed = 0 if @collisions["bottom"] && @y_speed > 0
+
     if @x_speed < 0 && !@collisions["left"]
       @x_pos += @x_speed
       @x_speed += 0.25
