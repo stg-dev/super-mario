@@ -16,10 +16,9 @@ set resizable: false
 
 player = Player.new(200, 200)
 scene = Scene.new(player)
-scene.add_to_scene(Block.new(0, 500).append_blocks(30))
-scene.add_to_scene(Block.new(0, 550).append_blocks(30))
-
-scene.add_to_scene(Block.new(400, 450).append_blocks(20))
+scene.add_to_scene(Block.new(0, 500).append_blocks(40))
+scene.add_to_scene(Block.new(0, 550).append_blocks(40))
+scene.add_to_scene(Block.new(500, 450).append_blocks(4))
 
 scene.add_to_scene(Cloud.new(1200))
 
