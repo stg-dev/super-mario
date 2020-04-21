@@ -1,4 +1,4 @@
-require './complex/classes/parents/collison_object'
+require './complex/classes/parents/collision_object'
 
 class Block < CollisionObject
   def initialize(x_pos, y_pos)
