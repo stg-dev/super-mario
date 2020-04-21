@@ -12,4 +12,20 @@ class CollisionObject
     @simulate_physics = simulate_physics
     @is_animated = is_animated
   end
+
+  def x1
+    x_pos
+  end
+
+  def x2
+    x_pos + width
+  end
+
+  def y1
+    y_pos
+  end
+
+  def y2
+    y_pos + height
+  end
 end

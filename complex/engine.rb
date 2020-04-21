@@ -14,11 +14,13 @@ set width: 1066
 set height: 600
 set resizable: false
 
-player = Player.new(200, 200)
+player = Player.new(200, 400)
 scene = Scene.new(player)
-scene.add_to_scene(Block.new(0, 500).append_blocks(40))
-scene.add_to_scene(Block.new(0, 550).append_blocks(40))
-scene.add_to_scene(Block.new(500, 450).append_blocks(4))
+scene.add_to_scene(Block.new(50, 500).append_blocks(30))
+scene.add_to_scene(Block.new(0, 550).append_blocks(30))
+
+scene.add_to_scene(Block.new(500, 400))
+scene.add_to_scene(Block.new(600, 350))
 
 scene.add_to_scene(Cloud.new(1200))
 
