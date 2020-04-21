@@ -46,18 +46,18 @@ class Player < LivingEntity
     @y_speed = 0 if @collisions["bottom"] && @y_speed > 0
 
     if @x_speed < 0 && !@collisions["left"]
-      @x_pos += @x_speed
+      set_cords(@x_pos + @x_speed, nil)
       @x_speed += 0.25
     end
 
     if @x_speed > 0 && !@collisions["right"]
-      @x_pos += @x_speed
+      set_cords(@x_pos + @x_speed, nil)
       @x_speed -= 0.25
     end
 
-    @y_pos += @y_speed if @y_speed < 0 && !@collisions["top"]
+    set_cords(nil, @y_pos + @y_speed) if @y_speed < 0 && !@collisions["top"]
 
-    @y_pos += @y_speed if @y_speed > 0 && !@collisions["bottom"]
+    set_cords(nil, @y_pos + @y_speed) if @y_speed > 0 && !@collisions["bottom"]
 
     update_square
   end

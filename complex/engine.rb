@@ -20,6 +20,7 @@ scene.add_to_scene(Block.new(50, 500).append_blocks(30))
 scene.add_to_scene(Block.new(0, 550).append_blocks(30))
 
 scene.add_to_scene(Block.new(500, 400))
+scene.add_to_scene(Block.new(500, 450))
 scene.add_to_scene(Block.new(600, 350))
 
 scene.add_to_scene(Cloud.new(1200))

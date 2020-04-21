@@ -7,7 +7,7 @@ class Scene
   def initialize(player)
     @elements = [player]
 
-    @collision_detector = BenniCollisionDetector.new
+    @collision_detector = BetterCollisionDetector.new
   end
 
   def add_to_scene(element)
@@ -20,10 +20,7 @@ class Scene
   end
 
   def simulate_physics
-    copy = @elements
-    copy.pop(0)
-    # @collision_detector.detect_collisions(@elements)
-    @collision_detector.detect_collisions(@elements[0], @elements)
+    @collision_detector.detect_collisions(@elements)
 
     @elements.each do |element|
       if element.simulate_physics && !element.collisions["bottom"]
@@ -35,7 +32,7 @@ class Scene
   def animate
     if @elements[0].x_pos > 800
       @elements.each do |element|
-        element.x_pos -= 5
+        element.set_cords(element.x_pos - 5, nil)
       end
     end
 
