@@ -3,27 +3,25 @@ require './complex/classes/scene'
 require './complex/classes/player'
 require './complex/classes/block'
 require './complex/classes/cloud'
-# require './code.rb'
+require './complex/classes/text_output'
+require './complex/classes/coin'
 
 # Variables
-@actions = [] # all actions to perform
-
 set title: 'Super Mario'
 set background: 'blue'
 set width: 1066
 set height: 600
 set resizable: false
 
-player = Player.new(200, 400)
+# Gestalte hier deine Scene
+
+player = Player.new(120, 300)
 scene = Scene.new(player)
-scene.add_to_scene(Block.new(50, 500).append_blocks(30))
-scene.add_to_scene(Block.new(0, 550).append_blocks(30))
+scene.add_to_scene(Block.new(0, 500).append_blocks(400))
+scene.add_to_scene(Block.new(0, 550).append_blocks(400))
+scene.add_to_scene(Coin.new(350, 350))
 
-scene.add_to_scene(Block.new(500, 400))
-scene.add_to_scene(Block.new(500, 450))
-scene.add_to_scene(Block.new(600, 350))
-
-scene.add_to_scene(Cloud.new(1200))
+# Ende der Gestalltung
 
 on :key_down do |event|
   player.jump(7) if event.key == 'w' || event.key == 'space'

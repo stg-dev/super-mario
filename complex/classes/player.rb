@@ -5,23 +5,27 @@ class Player < LivingEntity
   attr_accessor :y_speed
 
   def initialize(x_pos, y_pos)
-    super(x_pos, y_pos, 40, 80, true, true)
+    super(x_pos, y_pos, 55, 110, true, true)
 
     @x_speed = 0
     @y_speed = 0
 
     @movement = nil
+    @last_movement = nil
 
-    @image = Image.new(
-        'assets/mario_standing.bmp',
-        x: @x_pos, y: @y_pos,
+    @image = Sprite.new(
+        './assets/mario.png',
         width: @width,
         height: @height,
-        z: 3
+        clip_width: 25,
+        animations: {
+            stand: 2..3
+        }
     )
   end
 
   def move(direction)
+    @last_movement = @movement
     @movement = direction
   end
 
@@ -40,6 +44,8 @@ class Player < LivingEntity
   def animate
     move_entity unless @movement == nil
 
+    @image.stop if @x_speed == 0
+
     @x_speed = 0 if @collisions["left"] && @x_speed < 0
     @x_speed = 0 if @collisions["right"] && @x_speed > 0
     @y_speed = 0 if @collisions["top"] && @y_speed < 0
@@ -48,12 +54,19 @@ class Player < LivingEntity
     if @x_speed < 0 && !@collisions["left"]
       set_cords(@x_pos + @x_speed, nil)
       @x_speed += 0.25
-    end
-
-    if @x_speed > 0 && !@collisions["right"]
+      if @last_movement != @movement
+        @last_movement = @movement
+        @image.play(animation: :stand, loop: true, flip: :horizontal)
+      end
+    elsif @x_speed > 0 && !@collisions["right"]
       set_cords(@x_pos + @x_speed, nil)
       @x_speed -= 0.25
+      if @last_movement != @movement
+        @last_movement = @movement
+        @image.play(animation: :stand, loop: true)
+      end
     end
+
 
     set_cords(nil, @y_pos + @y_speed) if @y_speed < 0 && !@collisions["top"]
 

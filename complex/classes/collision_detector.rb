@@ -1,9 +1,10 @@
 require './complex/classes/parents/living_entity'
 require './complex/classes/parents/passive_object'
+require './complex/classes/coin'
 
 # Winklers version: DONT USE! Unoptimized and buggy!
 class CollisionDetector
-  def detect_collisions(elements)
+  def detect_collisions(elements, score)
     elements.each do |element|
       next unless element.is_a?(LivingEntity)
       # collisions with window border
@@ -28,9 +29,17 @@ class CollisionDetector
         element.collisions = {
           'right' => !element.collisions['right'] ? (element.x_pos + element.width > other_element.x_pos && element.x_pos - 5 < other_element.x_pos + other_element.width) && ((element.y_pos > other_element.y_pos && element.y_pos < other_element.y_pos + other_element.height) || (element.y_pos + element.height < other_element.y_pos + other_element.height && element.y_pos + element.height > other_element.y_pos)) : true,
           'left' => !element.collisions['left'] ? (element.x_pos > other_element.x_pos && element.x_pos < other_element.x_pos + other_element.width) && ((element.y_pos > other_element.y_pos && element.y_pos < other_element.y_pos + other_element.height) || (element.y_pos + element.height < other_element.y_pos + other_element.height && element.y_pos + element.height > other_element.y_pos)) : true,
-          'bottom' => !element.collisions['bottom'] ? element.y_pos + element.height + 5 >= other_element.y_pos && element.y_pos + element.height < other_element.y_pos + other_element.height && ((element.x_pos > other_element.x_pos && element.x_pos < other_element.x_pos + other_element.width) || (element.x_pos + element.width < other_element.x_pos + other_element.width && element.x_pos + element.width > other_element.x_pos)) : true,
+          'bottom' => !element.collisions['bottom'] ? element.y_pos + element.height + 10 >= other_element.y_pos && element.y_pos + element.height < other_element.y_pos + other_element.height && ((element.x_pos > other_element.x_pos && element.x_pos < other_element.x_pos + other_element.width) || (element.x_pos + element.width < other_element.x_pos + other_element.width && element.x_pos + element.width > other_element.x_pos)) : true,
           'top' => !element.collisions['top'] ? element.y_pos - 5 <= other_element.y_pos + other_element.height && element.y_pos > other_element.y_pos && ((element.x_pos > other_element.x_pos && element.x_pos < other_element.x_pos + other_element.width) || (element.x_pos + element.width < other_element.x_pos + other_element.width && element.x_pos + element.width > other_element.x_pos)) : true
         }
+
+        if element.collisions['right'] || element.collisions['left'] || element.collisions['top'] || element.collisions['bottom']
+          if other_element.kind_of?(Coin)
+            other_element.remove
+            elements.delete(other_element)
+            score.call
+          end
+        end
       end
     end
   end

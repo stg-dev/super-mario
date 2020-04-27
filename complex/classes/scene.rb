@@ -1,13 +1,18 @@
 require './complex/classes/collision_detector'
 require './complex/classes/block'
+require './complex/classes/text_output'
 
 class Scene
   attr_reader :elements
 
   def initialize(player)
     @elements = [player]
+    @score = 0
+    @score_text = TextOutput.new(20,20, ("PUNKTE: " + @score.to_s))
 
-    @collision_detector = BetterCollisionDetector.new
+    @collision_detector = CollisionDetector.new
+
+    @add_to_score = -> { @score += 1 }
   end
 
   def add_to_scene(element)
@@ -20,7 +25,7 @@ class Scene
   end
 
   def simulate_physics
-    @collision_detector.detect_collisions(@elements)
+    @collision_detector.detect_collisions(@elements, @add_to_score)
 
     @elements.each do |element|
       if element.simulate_physics && !element.collisions["bottom"]
@@ -41,5 +46,7 @@ class Scene
 
       element.animate
     end
+
+    @score_text.update(("PUNKTE: " + @score.to_s))
   end
 end
